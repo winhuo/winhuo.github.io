@@ -271,7 +271,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/05/基于Centos-Tomcat-Jdk-mysql-ZrLog的个人博客实现/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2019/03/05/基于Centos-Tomcat-Jdk-mysql-ZrLog的个人博客实现/" itemprop="url">基于Centos+Tomcat+Jdk+mysql+ZrLog的个人博客实现</a></h1>
         
 
         <div class="post-meta">
@@ -283,7 +283,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T22:25:59+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T22:14:43+08:00">
                 2019-03-05
               </time>
             
@@ -293,6 +293,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/博客搭建/" itemprop="url" rel="index">
+                    <span itemprop="name">博客搭建</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -333,20 +355,11 @@
       
         
           
-            <hr>
-<p>title: 基于Centos+Tomcat+Jdk+mysql+ZrLog的个人博客实现<br>date: 2019-03-05 22:14:43<br>tags:</p>
+            <p>旧博客上的文章</p>
 <ul>
-<li>博客搭建</li>
-<li>linux</li>
-<li>tomcat<h2 id="categories：博客搭建"><a href="#categories：博客搭建" class="headerlink" title="categories：博客搭建"></a>categories：博客搭建</h2>-</li>
-</ul>
-<hr>
-<p>旧博客上的文章</p>
-<hr>
-<ul>
-<li>笔者将昨天进行个人博客搭建的基本过程做一个总结*</li>
-<li>在本文的引导下，在几个小时内就可以搭建自己的个人博客*</li>
-<li>有问题可以给我留言*<h4 id="1-服务器、远程操作软件和操作系统的概述"><a href="#1-服务器、远程操作软件和操作系统的概述" class="headerlink" title="1.服务器、远程操作软件和操作系统的概述"></a>1.服务器、远程操作软件和操作系统的概述</h4>  服务器厂商：搬瓦工<br>  相关配置：512M+10G+500G/月<br>  价格：$19.9/年<br>  可以进行科学上网（不是本文的重点）</li>
+<li>笔者将昨天进行个人博客搭建的基本过程做一个总结 *</li>
+<li>在本文的引导下，在几个小时内就可以搭建自己的个人博客 *</li>
+<li>有问题可以给我留言 *<h4 id="1-服务器、远程操作软件和操作系统的概述"><a href="#1-服务器、远程操作软件和操作系统的概述" class="headerlink" title="1.服务器、远程操作软件和操作系统的概述"></a>1.服务器、远程操作软件和操作系统的概述</h4>  服务器厂商：搬瓦工<br>  相关配置：512M+10G+500G/月<br>  价格：$19.9/年<br>  可以进行科学上网（不是本文的重点）</li>
 </ul>
 <hr>
 <pre><code>在服务器控制面板选择加利福尼亚的机房（可随时更改，更换IP）
@@ -373,7 +386,10 @@ source /etc/profile 让环境变量即时生效
 </code></pre><hr>
 <pre><code>./usr/local/huo/tomcat/bin/startup.sh *开启Tomcat服务*
 ./usr/local/huo/tomcat/bin/shutdown.sh *关闭tomcat服务*
-</code></pre><p><strong>在执行tomcat开启服务命令后，可以在浏览器输入http：//服务器IP：8080</strong><br><em>如果此时访问到tomcat主页，则说明安装成功</em></p>
+</code></pre><p><strong> 在执行tomcat开启服务命令后，可以在浏览器输入http：//服务器IP：8080 </strong></p>
+<ul>
+<li>如果此时访问到tomcat主页，则说明安装成功 *</li>
+</ul>
 <h4 id="4-centos下mysql环境的搭建"><a href="#4-centos下mysql环境的搭建" class="headerlink" title="4.centos下mysql环境的搭建"></a>4.centos下mysql环境的搭建</h4><pre><code>wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm 从web上获取MySQL安装文件
 rpm -ivh mysql-community-release-el7-5.noarch.rpm 解压缩
 yum install mysql-community-server 安装依赖的一个库 
@@ -394,15 +410,24 @@ cd  /usr/local/huo/tomcat/webapps/
  mv zrlog-2.0.1-71c552b-release.war\?attname\=ROOT.war winhuo.war改变war包的名字，方便管理
 </code></pre><h4 id="6-tomcat的相关配置"><a href="#6-tomcat的相关配置" class="headerlink" title="6.tomcat的相关配置"></a>6.tomcat的相关配置</h4><pre><code>cd /usr/local/huo/tomcat/conf/
 vim server.xml 修改默认端口配置和主页配置（两处）
-</code></pre><p><em>改变默认的端口，将8080改为80，国内服务器需要备案</em><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"80"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><em>修改默认主页，需要添加<context>标签的内容到指定的位置</context></em><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">debug</span>=<span class="string">"0"</span> <span class="attr">docBase</span>=<span class="string">"/usr/local/huo/tomcat/webapps/winhuo"</span> <span class="attr">reloadable</span>=<span class="string">"true"</span> <span class="attr">privileged</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br><span class="line">		...</span><br><span class="line">		...</span><br></pre></td></tr></table></figure></p>
-<h4 id="7-在腾讯云购买域名"><a href="#7-在腾讯云购买域名" class="headerlink" title="7.在腾讯云购买域名"></a>7.在腾讯云购买域名</h4><pre><code>*在腾讯云购买域名*
+</code></pre><ul>
+<li><p>改变默认的端口，将8080改为80，国内服务器需要备案 *</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"80"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改默认主页，需要添加<context>标签的内容到指定的位置 *</context></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">debug</span>=<span class="string">"0"</span> <span class="attr">docBase</span>=<span class="string">"/usr/local/huo/tomcat/webapps/winhuo"</span> <span class="attr">reloadable</span>=<span class="string">"true"</span> <span class="attr">privileged</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br><span class="line">		...</span><br><span class="line">		...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="7-在腾讯云购买域名"><a href="#7-在腾讯云购买域名" class="headerlink" title="7.在腾讯云购买域名"></a>7.在腾讯云购买域名</h4><pre><code>* 在腾讯云购买域名 *
 完成实名认证
 将域名和服务器ip绑定
 </code></pre><h4 id="8-ZrLog的数据库连接"><a href="#8-ZrLog的数据库连接" class="headerlink" title="8.ZrLog的数据库连接"></a>8.ZrLog的数据库连接</h4><pre><code>在浏览器输入申请的域名，如[http://www.aurora8.xy](http://www.aurora8.xy)
-在数据库引导页输入**数据库ip：127.0.0.1（不要输实际地址）**
+在数据库引导页输入** 数据库ip：127.0.0.1（不要输实际地址） **
 其他的按照之前设置的输入，端口是默认端口
-</code></pre><h4 id="9-完成"><a href="#9-完成" class="headerlink" title="9.完成"></a>9.完成</h4><p><em>答谢</em><br><em>感谢在博客搭建过程中提出建议的熊大佬，龙哥等人</em></p>
+</code></pre><h4 id="9-完成"><a href="#9-完成" class="headerlink" title="9.完成"></a>9.完成</h4><ul>
+<li>答谢 *</li>
+<li>感谢在博客搭建过程中提出建议的熊大佬，龙哥等人 *</li>
+</ul>
 
           
         
@@ -652,7 +677,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -663,7 +688,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
