@@ -397,6 +397,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/09/WIFI人体身份识别项目介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HuoYu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="曦剑">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/09/WIFI人体身份识别项目介绍/" itemprop="url">WIFI人体身份识别项目介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-09T00:18:19+08:00">
+                2019-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目介绍/" itemprop="url" rel="index">
+                    <span itemprop="name">项目介绍</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="WIFI人体身份识别"><a href="#WIFI人体身份识别" class="headerlink" title="WIFI人体身份识别"></a>WIFI人体身份识别</h2><h4 id="一，项目背景介绍"><a href="#一，项目背景介绍" class="headerlink" title="一，项目背景介绍"></a>一，项目背景介绍</h4><p>​    在大二时，和几个学长一起完成的大学生创新创业项目，当时自己刚学习软件工程一年时间，没有丰富的软件知识，但是由于在老师实验室帮着做过几次类似原理的实验，所以硬着头皮边学习边参与到了这个项目中。这个项目主要应用的时CSI信道容易发生变化的原理，通过路由器发射信号，经过人体反射后对信号产生变化。之后我们采集到了反射后信号（使用了CSI tool软件），经过一系列的预处理后将数据批量的投入一些机器学习的模型中，最后得到了训练结果，当实验者再次进入wifi区域，利用训练结果识别身份。</p>
+<p>​    之前参与的实验和这个项目在原理上是类似的，之前老师提出一个系统，想借助视频，声音以及WIFI信号识别飞入禁飞区的无人机，但是我帮助老师和学长采集实验数据，也是利用CSI信道来识别无人机。</p>
+<h4 id="二，实验的设计"><a href="#二，实验的设计" class="headerlink" title="二，实验的设计"></a>二，实验的设计</h4><p>​    1，我们使用路由器在过道一端发射WIFI信号，之后再国道另一端放置经过我们改造的笔记本，主要是将接收天线和笔记本的网卡连接，这样我们收到的WIFI信号便直接在电脑上进行分析。</p>
+<p>​    2，人在设备间自然行走一个来回，采集数据作为一次实验。</p>
+<p><img src="/2019/03/09/WIFI人体身份识别项目介绍/1.png" alt="实验设计图"></p>
+<h4 id="三，我主要参与的部分"><a href="#三，我主要参与的部分" class="headerlink" title="三，我主要参与的部分"></a>三，我主要参与的部分</h4><p>​    1，在实验设计阶段，起先我们计划在大厅或者空旷的外面进行实验数据的采集，但采集到的数据因为没有墙壁的反射，所以数据的波动不是很大，所以我们重新设计了在过道采取实验数据的实验办法。</p>
+<p>​    2，参与实验数据采集平台的搭建，我们的实验平台运行在linux系统上面，而我那时候还是个linux小白，停留在知道这个系统的阶段，所以我自学了linux系统的基础命令，了解了linux系统的一些相关知识，由于那个平台时学长们经过长期使用修改完的，所以只需要在linux中输入一些固定的命令，便能自动采集数据，并且借助matlab的图像绘制能力将信号波动显示出来。</p>
+<p>​    3，拿到实验数据后，我们首先进行预处理，预处理最重要的两个部分是去噪和入侵检测，之后截取有用的实验片段区进行截取。</p>
+<p>​    （1）：在数据去噪中，我们采集到的数据是1000HZ以上的数据，但我们要研究的问题需要100hz的数据。我们使用的第一个算法是“巴特沃斯二阶低通滤波器”将数据输入到这个模型中，我们得到了去除高频环境噪声的数据。</p>
+<p><img src="/2019/03/09/WIFI人体身份识别项目介绍/2.png" alt="处理后的图片"></p>
+<p>​    （2）：我们使用了改进的LOF（异常点检测算法）算法，找到了人进入实验区域的那段数据，之后我们把那段数据统一的裁剪下来，作为我们后期机器学习训练的基础。</p>
+<h4 id="四，我持学习态度的部分"><a href="#四，我持学习态度的部分" class="headerlink" title="四，我持学习态度的部分"></a>四，我持学习态度的部分</h4><p>​    1，预处理阶段，学长们采用了一种PCA的降维模型。降低了我们采取到数据的维数。</p>
+<p>​        2，入侵检测模块，建立了速度模型，主要为了提取出速度对CSI信号的影响，之后又设计了一个体型模型，提取出了不同人体型对CSI信号的影响。    </p>
+<p>​    3，深度学习部分，主要采用了CNN的训练模型，通过卷积和池化获得了特征数据。在CNN进行特征提取之后，我们可以将这些特征理解成单词，而时序上的特征序列就是句子，这样我们可以继续利用RNN做最后的分类工作。</p>
+<h4 id="五，项目收获"><a href="#五，项目收获" class="headerlink" title="五，项目收获"></a>五，项目收获</h4><p>​    1.认识到了机器学习的魅力，对卷积神经网络进行了初步的接触，体会到了在大数据的支撑下，机器学习有无限的可能。</p>
+<p>​    2，丰富了自己在LINUX系统上的操作，学习了大量的LINUX命令，为自己打开了LINUX系统的大门，感受到了用黑框操作操作系统的效率和魅力。</p>
+<p>​    3，大量次数的实验数据采集让我体会到了做一个实验项目的困难，需要自己采集各种数据，并且很多时候采集到的数据时无用的，培养了耐心。</p>
+<p>​    4，体会到大家一起讨论技术问题的魅力，虽然当时自己没有那么丰富的编程能力，甚至看算法的时候还需要自学线性代数的内容，但学长们还是很耐心的听取我对项目的建议。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/08/魔塔游戏项目介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1011,7 +1170,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
