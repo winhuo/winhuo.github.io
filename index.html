@@ -397,6 +397,523 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/18/RIP协议实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HuoYu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="曦剑">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/18/RIP协议实现/" itemprop="url">RIP协议实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T04:14:11+08:00">
+                2019-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目介绍/" itemprop="url" rel="index">
+                    <span itemprop="name">项目介绍</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="RIP协议的java实现项目介绍"><a href="#RIP协议的java实现项目介绍" class="headerlink" title="RIP协议的java实现项目介绍"></a>RIP协议的java实现项目介绍</h3><p><em>本项目之前参考过一篇github的部分内容，但现在已经找不到该github，无法注明</em></p>
+<h5 id="1，这个项目实现的功能"><a href="#1，这个项目实现的功能" class="headerlink" title="1，这个项目实现的功能"></a>1，这个项目实现的功能</h5><p>​    模拟了rip协议。</p>
+<p>​    实现了心跳包和数据包的周期性传输。</p>
+<p>​    使用UDP协议进行路由器之间的数据信息传输。</p>
+<p>​    及时更新每个路由器所对应的路由表。</p>
+<p>​    周期性的打印路由表的内容。</p>
+<p>​    删除路由表后其他路由器中本路由器将消失。</p>
+<p>​    使用了NIO编程里面的选择器和通道内容。</p>
+<h5 id="2，项目的目录结构"><a href="#2，项目的目录结构" class="headerlink" title="2，项目的目录结构"></a>2，项目的目录结构</h5><p>​    <img src="/2019/03/18/RIP协议实现/RIP项目的Java实现/1.png" alt="目录结构"></p>
+<h5 id="3，项目的详细介绍"><a href="#3，项目的详细介绍" class="headerlink" title="3，项目的详细介绍"></a>3，项目的详细介绍</h5><p>​    1，configuration</p>
+<p>​        其中config.txt文件表示一个总的配置文件，包括心跳包发送时间，信息包发送时间，打印路由表的时间</p>
+<p>​        其他的config-x，每一个文件代表一个路由器的直连信息，包括路由器的ID，路由器的入端口，以及路由器的可达路由器以及花费的跳数。</p>
+<p>​    2，parser.java</p>
+<p>​        主要是为了读取配置文件中的信息，将文件中的信息安装固定格式读取后放入相应的数据结构，之后系统使用这些信息进行运作，还实现了一个打印配置文件的函数，主要是为了测试。</p>
+<p>​    3，routingTableEntry.java</p>
+<p>​        这个类实现了一条路由表记录，分别记录了目的路由器，第一跳路由器，路径总花费以及路径经过的所有节点。实现了一个路径的更新函数，保持路径处于最新状态。    </p>
+<p>​    4，main.java</p>
+<p>​        首先调用parser类，对配置文件进行读取，接下来new出了一个daemon对象，相当于一个路由器。之后调用daemon的一些方法，启动一些定时器，之后周期性的发送心跳包和信息包来更新路由信息。</p>
+<p>​    <strong>5，daemon.java</strong> 这是最重要的类，这个系统的核心代码。这里面用了很多NIO编程的知识。</p>
+<p>​          变量上面：</p>
+<p>​                路由器id，出端口，map储存所有的路由表记录，选择器确定当前路由器是否在工作，bool类型的变量为了确定是否发送心跳包和数据包，心跳包计时器，最大跳数，和一些其他变量。</p>
+<p>​        函数上面：</p>
+<p>​        函数一：构造函数，主要初始化路由器的相关变量，更重要的是为每一个入端口DatagramChannel channel，并且设置成非阻塞的，并且打开该通道。最后打开一个新的计时器。</p>
+<p>​        函数二：readConfigFile（）。读配置文件，将心跳包发送间隔，数据包发送间隔。打印间隔。</p>
+<p>​        函数三：isSelected()。如果被选择器选择，那么那么我们可以发送心跳包和数据包。</p>
+<p>​        函数四：sendHeartPackets()。发送心跳包，通过UDP协议。</p>
+<p>​        函数五：sendPackets(）。发送数据包，通过UDP协议。</p>
+<p>​        函数六：createBuffer()。创建buffer，主要是创建数据包的头部和内容，是路由信息，包含目的地，下一跳，路径信息，花费。</p>
+<p>​        函数七：createHeartBuffer()。创建心跳包，包含路由器id信息和额外信息，共8位。</p>
+<p>​        函数八：consistentPacket（）。确定是否是有效的数据包。</p>
+<p>​        函数九：readReceivedPackets（）。将包里的数据读出来。</p>
+<p>​        函数十：heartPackets（）。判断是不是有效的心跳包。</p>
+<p>​        函数十一：updateRoutingTable（）。更新路由表。</p>
+<p>​        函数十二：updateLine（）。更新路由条目，比较cost或者查看是否存在这个路径。</p>
+<p>​        函数十三：startPeriodicTimer（）。startHeartTimer（）。周期的执行任务。</p>
+<p>​        函数十四：displayRoutingTable() 。打印路由表。</p>
+<p>​        函数十五：TimeOut（）。三次心跳包未收到，表示超时。</p>
+<h4 id="4，该项目代码上传至github，主页点击github进行查看"><a href="#4，该项目代码上传至github，主页点击github进行查看" class="headerlink" title="4，该项目代码上传至github，主页点击github进行查看"></a>4，该项目代码上传至github，主页点击github进行查看</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/18/文件上传系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HuoYu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="曦剑">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/18/文件上传系统/" itemprop="url">文件上传系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T04:11:54+08:00">
+                2019-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目介绍/" itemprop="url" rel="index">
+                    <span itemprop="name">项目介绍</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1，文件上传系统的一些基本实现的功能如下"><a href="#1，文件上传系统的一些基本实现的功能如下" class="headerlink" title="1，文件上传系统的一些基本实现的功能如下"></a>1，文件上传系统的一些基本实现的功能如下</h4><ol>
+<li>在服务器务器的文件下将看到客户端上传的文件或者上传的文件夹，并且文件的目录结构保持；</li>
+<li>在客户端可以上传文件或者文件夹，并且保留文件夹结构；</li>
+<li>文件传输过程种使用ASE加密算法进行了加密；</li>
+<li>使用多线程编程，多个客户端可以同时向服务器传输文件；</li>
+</ol>
+<h4 id="2，文件上传系统所有代码的结构如下："><a href="#2，文件上传系统所有代码的结构如下：" class="headerlink" title="2，文件上传系统所有代码的结构如下："></a>2，文件上传系统所有代码的结构如下：</h4><p><img src="/2019/03/18/文件上传系统/文件上传系统项目介绍/1.png" alt="代码结构"></p>
+<h4 id="3，各文件详细介绍"><a href="#3，各文件详细介绍" class="headerlink" title="3，各文件详细介绍"></a>3，各文件详细介绍</h4><p>​    1，ase1.java文件：</p>
+<p>​        这个文件中主要实现了加解密函数，以及将原始数据转化成byte的函数，由于当时并不懂计算机安全的一些知识，更不懂ASE算法的相关原理，所以这个文件中的加解密代码基本上来自于网络，所以暂时不做多的解释，等以后自己会重写这部分代码。</p>
+<p>​    2，myclient.java文件中：</p>
+<p>​        这个文件主要是上传客户端的入口，通过命令行启动本程序，这个程序会读取命令行的参数，确定上传的文件，之后new一个新的线程出来，作为一个上传客户端，并且会创建一个指定ip和端口的socket。</p>
+<p>​               <strong>需要注意的是这个加密算法将1024个字节加密成1040个，这个很坑</strong></p>
+<p>​    3，clinetThread.java文件：</p>
+<p>​        这个类主要implements 了Runnable类，使用的是实现接口的方法。</p>
+<p>​        1).定义一个类实现Runnable接口，重写接口中的run()方法。在run()方法中加入具体的任务代码或处理逻辑。</p>
+<pre><code>(2).创建Runnable接口实现类的对象。
+</code></pre><p>​         (3).创建一个Thread类的对象，需要封装前面Runnable接口实现类的对象。（接口可以实现多继承）</p>
+<p>​        (4).调用Thread对象的start()方法，启动线程</p>
+<p>​        在实现本类的run方法时：</p>
+<p>​        1，首先我们判断需要传输的是文件还是文件夹，如果是传输文件夹，这时我们采取将文件夹压缩成zip文件的方法，统一传输的文件格式；并且将这是文件夹的信息压入字节流；</p>
+<p>​        2，截取文件名，并且测量长度，将文件名长度和文件名同时放入BufferedOutputStream流中；</p>
+<p>​        3，测量文件长度，将它放到流里面；</p>
+<p>​        4，调用加密算法，对文件进行加密；</p>
+<p>​        5，将加密后的文件内容和文件长度放入流里面，对文件进行传输；</p>
+<p>​    4，myserver.java</p>
+<p>​        这个类提供了服务器接口，同样使用了多进程的编程方法。在这个类中，我们维护一个socketList来维护这个端口的所有socket，并且创建了一个ServerSocket来监听该接口是否有信息传输过来。之后启动一个进程去将文件存储在服务器端。</p>
+<p>​    5，MyServerThread.java</p>
+<p>​        在该类的run方法中：</p>
+<p>​        1，判断是文件还是文件夹</p>
+<p>​        2，读取文件名长度，读取文件名</p>
+<p>​        3，读文件长度</p>
+<p>​        4，读加密后的文件长度，计算需要解密的次数</p>
+<p>​        5，读取文件内容</p>
+<p>​        6，如果是文件夹，我们应该将文件夹解压，之后删除.zip文件</p>
+<p>​    6，fileset.java    </p>
+<p>​        这个类主要是将文件夹当成一个区别于文件的个体去传输，即不是使用文件压缩的思路去做，这个方法将文件夹的目录结构也进行传输，最后调用再调用文件进程进行传输，但由于时间关系，并没有将服务器端的这种方法写出来，所以也仅仅作为一种思路放在这个博客里面。</p>
+<p>​    7，zip.java</p>
+<p>​        这个类主要实现文件的压缩和解压缩，代码参考了网络中的很多知识，所以也不做过多的解释。</p>
+<h4 id="4，该项目代码上传至github，主页点击github进行查看"><a href="#4，该项目代码上传至github，主页点击github进行查看" class="headerlink" title="4，该项目代码上传至github，主页点击github进行查看"></a>4，该项目代码上传至github，主页点击github进行查看</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/18/博客项目介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HuoYu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="曦剑">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/18/博客项目介绍/" itemprop="url">博客项目介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T04:06:12+08:00">
+                2019-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目介绍/" itemprop="url" rel="index">
+                    <span itemprop="name">项目介绍</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="两次博客搭建项目介绍"><a href="#两次博客搭建项目介绍" class="headerlink" title="两次博客搭建项目介绍"></a>两次博客搭建项目介绍</h3><h4 id="1-第一次博客搭建"><a href="#1-第一次博客搭建" class="headerlink" title="1 第一次博客搭建"></a>1 第一次博客搭建</h4><p>​    第一次博客搭建，主要使用了tomcat+mysql+ZLog+java+服务器的方式，远端的服务器自己运维，搭建的详细过程在本博客中有单独的文章；</p>
+<p>​    博客界面如下：</p>
+<p><img src="/2019/03/18/博客项目介绍/2.png" alt="界面"></p>
+<p>​    在博客搭建之后，由于自己本身服务器的内存比较小，所以经常出现宕机的状况，所以参考网络，写了一点简单的脚本，负责检测tomcat的状态，如果他们存在宕机状态，则对他们进行重启。</p>
+<p>主要用到的脚本如下(shellj脚本参考了CSDN博客的一篇文章）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"><span class="meta">#</span> 获取tomcat进程ID  /usr/local/tomcat</span><br><span class="line">TomcatID=$(ps -ef |grep tomcat |grep -w 'tomcat'|grep -v 'grep'|awk '&#123;print $2&#125;')  </span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> tomcat启动程序(这里注意tomcat实际安装的路径)  </span><br><span class="line">StartTomcat=/usr/local/tomcat/bin/startup.sh</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 定义要监控的页面地址  </span><br><span class="line">WebUrl=http://localhost:8080</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 日志输出 </span><br><span class="line">TomcatMonitorLog=/usr/local/tomcat/logs/TomcatMonitor.log </span><br><span class="line"> </span><br><span class="line">Monitor() </span><br><span class="line">&#123;  </span><br><span class="line">  echo "[info]开始监控tomcat...[$(date +'%F %H:%M:%S')]"  </span><br><span class="line">  if [[ $TomcatID ]];then # 这里判断TOMCAT进程是否存在  </span><br><span class="line">    echo "[info]当前tomcat进程ID为:$TomcatID,继续检测页面..."  </span><br><span class="line">    # 检测是否启动成功(成功的话页面会返回状态"200")  </span><br><span class="line">    TomcatServiceCode=$(curl -I -m 10 -o /dev/null -s -w %&#123;http_code&#125; $WebUrl)  </span><br><span class="line">    if [ $TomcatServiceCode -eq 200 ];then  </span><br><span class="line">        echo "[info]页面返回码为$TomcatServiceCode,tomcat启动成功,测试页面正常......"  </span><br><span class="line">    else  </span><br><span class="line">        echo "[error]tomcat页面出错,请注意......状态码为$TomcatServiceCode,错误日志已输出到$GetPageInfo"  </span><br><span class="line">        echo "[error]页面访问出错,开始重启tomcat"  </span><br><span class="line">        kill -9 $TomcatID  # 杀掉原tomcat进程  </span><br><span class="line">        sleep 3  </span><br><span class="line">        rm -rf $TomcatCache # 清理tomcat缓存  </span><br><span class="line">        $StartTomcat  </span><br><span class="line">    fi  </span><br><span class="line">  else  </span><br><span class="line">    echo "[error]tomcat进程不存在!tomcat开始自动重启..."  </span><br><span class="line">    echo "[info]$StartTomcat,请稍候......"  </span><br><span class="line">    #rm -rf $TomcatCache  </span><br><span class="line">    $StartTomcat  </span><br><span class="line">  fi  </span><br><span class="line">  echo "------------------------------"  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="meta">Monitor&gt;</span>&gt;$TomcatMonitorLog</span><br></pre></td></tr></table></figure>
+<p>在这之后修改该脚本的权限为A+X</p>
+<p>之后使用centos提供的crontab设置任务的执行周期。我设置为10分钟检测一次。</p>
+<p>之后过了两天我发现网页又不能正常访问了，我到远端服务器发现mysql被关闭了（人穷服务器小）</p>
+<p>之后又添加了mysql的检测和重启脚本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">pgrep -x mysqld &amp;amp;&amp;gt; /dev/null</span><br><span class="line">if [ $? -ne 0 ]</span><br><span class="line">then</span><br><span class="line">echo “At time: `date` :MySQL is stop .”&amp;gt;&amp;gt; /日志路径</span><br><span class="line">/etc/init.d/mysqld start</span><br><span class="line">else</span><br><span class="line">echo “MySQL server is running .”</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>之后根据之前的操作设置了定时任务。</p>
+<p><strong>由于自己偷懒并没有去写脚本对博客内容进行一些备份，所以后来悲剧了</strong></p>
+<h4 id="2-博客受到攻击"><a href="#2-博客受到攻击" class="headerlink" title="2 博客受到攻击"></a>2 博客受到攻击</h4><p>博客可能因为80端口打开的原因，收到了勒索病毒的攻击</p>
+<p><img src="/2019/03/18/博客项目介绍/3.png" alt="勒索信息"></p>
+<p><strong>一定要做博客的备份，除非你信任自己能很好的维护自己的服务器</strong></p>
+<h4 id="3-新博客的搭建"><a href="#3-新博客的搭建" class="headerlink" title="3 新博客的搭建"></a>3 新博客的搭建</h4><p>​    后来根据一些学长的建议，重新搭建了基于hexo+github的博客，将博客托管到了github上，现在博客运行基本稳定。</p>
+<p><img src="/2019/03/18/博客项目介绍/1.png" alt="博客界面"></p>
+<p>​    至于新博客的搭建详细过程，已经再另一篇博客里面写的很详细了，由于这个博客框架比较简单，并且不需要个人去维护，所以博客搭建完就开始往里面加东西了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/13/leetcode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -805,6 +1322,20 @@
 <p>​    继承了qt的MyLabel类，在该类中设置了所对应英雄和怪物的图片，并且使用setPosition函数统一了所有图片的大小。每一层地图由13*13的小图片构成，使用上下左右方向键控制英雄的移动，在后端仍采用黑框阶段的模式，使用不同的数字来表示不同的内容。右侧显示了英雄的HP、攻击力，防御力和所拥有的钥匙，英雄在移动过程中还能通过使用蓝宝石和红宝石来改变相关属性，最后通过尝试一些方法，最后达到最后一层，打败boss；</p>
 <p>​    <img src="/2019/03/08/魔塔游戏项目介绍/1.png" alt="游戏画面"></p>
 <p><em>代码已经同步到了GitHub</em> <a href="https://github.com/winhuo/magictower" target="_blank" rel="noopener">点这里</a> </p>
+<h2 id="游戏的详细分析-QT版本"><a href="#游戏的详细分析-QT版本" class="headerlink" title="游戏的详细分析(QT版本)"></a>游戏的详细分析(QT版本)</h2><p>游戏文件主要由</p>
+<p>magictower.h ,mainwindow.h ,maps.h ,mylabel.h四个头文件，</p>
+<p>magivtower.cpp,main.cpp,mainwindow.h,mylable.h四个cpp文件，</p>
+<p>以及一些资源文件（主要用来构成游戏画面）。</p>
+<p>?    其中magictower.h 主要拥有一个基类magictower，这个基类继承了Qlabel类，主要使用了QT框架里面的label功能。之后gameperson类继承了magictower，增加了生命值，攻击力，防御力等熟悉。在这个头文件中的其余所有类都继承了gameperson类，针对不同的情况，增加了不同的属性，主要有道路，门，墙，楼梯，大史莱姆，小史莱姆，终极boss等怪兽。每个不同的类中声明了不同的方法，比如上楼函数，开门函数，攻击函数，防御函数等。</p>
+<p>?    在mainwindow.h中，主要从QT的QMainWindow类继承得到了MianWindow类，在文件中声明了一些管理整个游戏的变量以及函数，比如 MyLabel<em> label; magicTower </em>magicT; 前者用来控制画面的显示，后者用来控制后台的一些数组转换。还声明了一些键盘的监听函数，还有监听到键盘信号后使用的move（）函数。</p>
+<p>?    在maps.h中，我主要定义了一个三维数组，用来储存整个游戏的地图。还设置static变量来控制英雄的初始坐标以及初始的楼层为0层；</p>
+<p>?    在mylable.h文件中，我主要声明了标签的放置函数以及标签的构造函数（找到图片，放到指定的位置）。</p>
+<p>?    在magictower.cpp中，主要实现了magictower.h中声明的一些类和一些函数。</p>
+<p>?    main.cpp文件是整个程序入口。主要是创建mainwindow；</p>
+<p>?    mainwindow.cpp文件主要是实现maindow.h中的一些函数，其中比较重要的是：声明整个游戏界面的大小，设置第一个lable的坐标和大小，实现showdata函数，在游戏右侧实现了一个简单的英雄属性显示界面，刷新游戏画面的函数，move函数中定义实现了英雄遇到下一个物品（可能是宝石，可能是钥匙，也可能是怪物）时做出的反应。</p>
+<p>?    mylable.cpp主要实现了一些放置lable的函数。</p>
+<p>?    另外的一些资源文件，主要是一些游戏中需要用到的图片。</p>
+<p>?    <img src="/2019/03/08/魔塔游戏项目介绍/2.png" alt="文件结构"></p>
 
           
         
@@ -1316,7 +1847,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1338,7 +1869,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
