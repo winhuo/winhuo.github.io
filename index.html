@@ -397,6 +397,182 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/05/19/集群和高可用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HuoYu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="曦剑">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/19/集群和高可用/" itemprop="url">集群和高可用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-19T15:20:39+08:00">
+                2019-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="集群和高可用"><a href="#集群和高可用" class="headerlink" title="集群和高可用"></a>集群和高可用</h3><h4 id="一、集群的概念和介绍"><a href="#一、集群的概念和介绍" class="headerlink" title="一、集群的概念和介绍"></a>一、集群的概念和介绍</h4><p>​    <strong>大多数网络服务采用7*24的服务策略，所以我们将大量的主机有机的结合在一起，以满足当前大数据时代海量访问负载</strong>。</p>
+<p>​    LVS(Linux Virtual Server)，linux虚拟服务器。在linux内核实现了基于IP的数据请求负载均衡调度方案，终端的web请求会发送给LVS调度器，调度器根据自己的算法确定将请求分配给后台的一台服务器。LVS的服务模式主要有NAT，TUN，DR三种模式。</p>
+<p>​    <em>NAT</em>：LVS调度器使用两块网卡配置不同的IP地址，一块设置为私钥IP和内部设备互联，另一个设置为外网IP与外部网络互联。用户只能访问到外网的ip，称为VIP。这时候LVS会根据调度算法选择后端的一个真实服务器，真实服务器将响应数据包返回给调度器，调度器将信息返回用户。(维护了一个HASH表)</p>
+<p>​    <em>TUN</em>:在NAT模式下，调度器是整个集群环境的瓶颈，我们还知道数据请求包远远小于数据响应包。所以TUN的思路就是将请求和响应分开，调度器负责处理请求，在调度器和真实服务器之间设置IP隧道（一种添加头部及的技术），服务器将响应包直接返回给用户。所以在这个模式下，集群环境中的真实服务器要求能和互联网进行互联。</p>
+<p>​    DR：在TUN模式中，建立IP隧道依然会消耗一些服务器资源，所以推出了DR模式，LVS的作用依旧是根据算法选择真实服务器处理请求，要求调度器和后端服务器必须在同一个局域网，在真实服务器返回响应时，需要将源IP设置成VIP。</p>
+<p>​    LVS的常见调度算法：</p>
+<ul>
+<li><p>轮询调度</p>
+</li>
+<li><p>加权轮询调度</p>
+</li>
+<li><p>最小连接调度</p>
+</li>
+<li><p>加权最小连接调度</p>
+</li>
+<li><p>局部性最少连接</p>
+</li>
+<li><p>目标地址散列调度</p>
+</li>
+<li><p>源地址散列调度</p>
+<p>LVS现在已经集成到了LINUX内核，整个LVS分为内核层和用户层，内核层负责核心算法的实现，用户层需要安装ipvsade。其内核模块名称为ip_vs。</p>
+</li>
+</ul>
+<h4 id="二、Keepalived双机热备"><a href="#二、Keepalived双机热备" class="headerlink" title="二、Keepalived双机热备"></a>二、Keepalived双机热备</h4><p>​    keepalived是使用C语言编写的路由热备软件，主要为linux系统提供简单高效的负载均衡及高可用解决方案。我们可以使用keepalived来部署多个LVS调度器，仅有一台作为主服务器，其他调度器当作备用，当主设备发生故障时，keepalived可以自动将备用升级为主设备。</p>
+<p>​    VRRP协议介绍：在静态路由环境下防止单点故障而设计的主从灾备协议，它将两台设备虚拟成一个设备，对外提供一个设备的IP地址，同一时刻仅有一个设备可以拥有该虚拟IP地址。主设备会一直向从设备发送信息，从设备收不到时，立即升级自己的角色。</p>
+<p>​    VRRP协议有个特殊情况，当虚拟IP和其中一个设备的ip相同时，它将永远是主设备状态。</p>
+<p>​    keepalived可以使用yum安装，之后按照需求设置他的配置文件。</p>
+<h4 id="三、squid代理服务器"><a href="#三、squid代理服务器" class="headerlink" title="三、squid代理服务器"></a>三、squid代理服务器</h4><p>​    Squid是一个支持http，https，ftp等服务的web缓存代理软件，他可以通过缓存来降低带宽占用并优化页面响应时间。此外他还具有强大的访问控制功能。</p>
+<p>​    工作流程：客户端访问squid代理服务器，之后它去向真实服务器请求，并且响应客户端，之后将这部分内容保存下来。</p>
+<p>​    常见的代理服务类型：</p>
+<p>​    正向代理服务器：内部网页希望获取外部网络时缓存的页面数据。所有的刻画u电脑通过设置代理服务器连接至Squid，通过Squid代理上网，它主要提供缓存加速和访问控制。</p>
+<p>​    透明代理，透明代理和正向代理类似，区别时正向代理需要对每个客户端进行代理设置透明设置不需要终端用户进行设置，它结合网关进行设置，对用户透明。</p>
+<p>​    反向代理，反向代理结合智能DNS实现基本的CDN(内容分发网络)，通过DNS的试图功能，我们可以为不同地区的DNS请求返回不同的结果给客户端。</p>
+<h4 id="四、HAProxy负载均衡"><a href="#四、HAProxy负载均衡" class="headerlink" title="四、HAProxy负载均衡"></a>四、HAProxy负载均衡</h4><p>​    HAProxy的工作模式使其可以非常简单和安全的集成到我们现有的站点架构中，可以对外屏蔽内部真实的WEB服务器，防止服务器遭受到攻击。</p>
+<h4 id="五、Nginx高级应用"><a href="#五、Nginx高级应用" class="headerlink" title="五、Nginx高级应用"></a>五、Nginx高级应用</h4><p>​    它除了可以作为后端的http服务器外，他还是一个高性能的反向代理服务器，他可以根据规则以轮询，ip哈希，url哈希等方式调度后台的真实服务器，Nginx也支持对后端服务器的健康检查功能。</p>
+<h4 id="六、MySQL高可用"><a href="#六、MySQL高可用" class="headerlink" title="六、MySQL高可用"></a>六、MySQL高可用</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/04/09/记腾讯实习生/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1800,223 +1976,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/05/基于Centos-Tomcat-Jdk-mysql-ZrLog的个人博客实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="HuoYu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/header.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="曦剑">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/05/基于Centos-Tomcat-Jdk-mysql-ZrLog的个人博客实现/" itemprop="url">基于Centos+Tomcat+Jdk+mysql+ZrLog的个人博客实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T22:14:43+08:00">
-                2019-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客搭建/" itemprop="url" rel="index">
-                    <span itemprop="name">博客搭建</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>旧博客上的文章</p>
-<ul>
-<li>笔者将昨天进行个人博客搭建的基本过程做一个总结 *</li>
-<li>在本文的引导下，在几个小时内就可以搭建自己的个人博客 *</li>
-<li>有问题可以给我留言 *<h4 id="1-服务器、远程操作软件和操作系统的概述"><a href="#1-服务器、远程操作软件和操作系统的概述" class="headerlink" title="1.服务器、远程操作软件和操作系统的概述"></a>1.服务器、远程操作软件和操作系统的概述</h4>  服务器厂商：搬瓦工<br>  相关配置：512M+10G+500G/月<br>  价格：$19.9/年<br>  可以进行科学上网（不是本文的重点）</li>
-</ul>
-<hr>
-<pre><code>在服务器控制面板选择加利福尼亚的机房（可随时更改，更换IP）
-在服务器控制面板安装centos操作系统（可随意安装系统，次数不限）
-在服务器控制面板获取随机生成的root用户密码以及开放的ssh端口（非22）
-</code></pre><hr>
-<pre><code>推荐使用Xshell6进行远程访问
-推荐使用Xftp6进行远程文件传输
-以上两个软件使用服务器ip+开放的ssh端口号+root+root密码登陆
-</code></pre><h4 id="2-centos下jdk环境的搭建"><a href="#2-centos下jdk环境的搭建" class="headerlink" title="2.centos下jdk环境的搭建"></a>2.centos下jdk环境的搭建</h4><pre><code>yum install wget 获取wget工具
-wget 【jdk安装包路径】 在web上获取jdk的安装包
-cd /usr/local/ 
-mkdir huo 创建一个个人文件夹
-mv /root/jdk-8u191-linux-x64.tar.gz /usr/local/huo/ 移动安装包
-tar -zxvf jdk-8u191-linux-x64.tar.gz 解压安装包
-mv jdk1.8.0_191/ javajdk 改名，便于管理
-vim /etc/profile 修改环境变量，添加代码块a
-source /etc/profile 让环境变量即时生效
-</code></pre><p>代码块：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/local/huo/javajdk</span><br><span class="line">PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line">CLASSPATH=$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar</span><br><span class="line">export PATH JAVA_HOME CLASSPATH</span><br></pre></td></tr></table></figure></p>
-<h4 id="3-centos下tomcat环境的搭建"><a href="#3-centos下tomcat环境的搭建" class="headerlink" title="3.centos下tomcat环境的搭建"></a>3.centos下tomcat环境的搭建</h4><pre><code>wget 【tomcat安装包路径】在web上获取tomcat的安装包
- mv /root/apache-tomcat-8.5.34.tar.gz /usr/local/huo/ 移动
- tar -zxvf apache-tomcat-8.5.34.tar.gz 解压缩
- mv apache-tomcat-8.5.34 tomcat 重命名
-</code></pre><hr>
-<pre><code>./usr/local/huo/tomcat/bin/startup.sh *开启Tomcat服务*
-./usr/local/huo/tomcat/bin/shutdown.sh *关闭tomcat服务*
-</code></pre><p><strong> 在执行tomcat开启服务命令后，可以在浏览器输入http：//服务器IP：8080 </strong></p>
-<ul>
-<li>如果此时访问到tomcat主页，则说明安装成功 *</li>
-</ul>
-<h4 id="4-centos下mysql环境的搭建"><a href="#4-centos下mysql环境的搭建" class="headerlink" title="4.centos下mysql环境的搭建"></a>4.centos下mysql环境的搭建</h4><pre><code>wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm 从web上获取MySQL安装文件
-rpm -ivh mysql-community-release-el7-5.noarch.rpm 解压缩
-yum install mysql-community-server 安装依赖的一个库 
-mysql -u root 进入mysql没有密码
-mysqladmin -u root password &apos;admin&apos; 设置人root密码
-mysql -u root -p 进入数据库
-Enter password: admin  输入之前设置的密码
-Mysql&gt;create database zrlog charset utf8;  创建新的数据库zrlog
-Mysql&gt; grant all on zrlog.* to &apos;user1&apos;@&apos;localhost&apos; identified by &apos;123456&apos;; 创建用户user1并且设置密码为123456，
-service mysqld restart 重启mysql
-</code></pre><hr>
-<pre><code>service mysqld restart 重启mysql
-service mysqld start 开启mysql
-service mysqld stop 关闭mysql
-</code></pre><h4 id="5-ZrLog的安装"><a href="#5-ZrLog的安装" class="headerlink" title="5.ZrLog的安装"></a>5.ZrLog的安装</h4><pre><code>wget http://dl.zrlog.com/release/zrlog-2.0.1-71c552b-release.war?attname=ROOT.war&amp;ref=index 从web获取war包
-mv zrlog-2.0.1-71c552b-release.war\?attname\=ROOT.war /usr/local/huo/tomcat/webapps/
-cd  /usr/local/huo/tomcat/webapps/
- mv zrlog-2.0.1-71c552b-release.war\?attname\=ROOT.war winhuo.war改变war包的名字，方便管理
-</code></pre><h4 id="6-tomcat的相关配置"><a href="#6-tomcat的相关配置" class="headerlink" title="6.tomcat的相关配置"></a>6.tomcat的相关配置</h4><pre><code>cd /usr/local/huo/tomcat/conf/
-vim server.xml 修改默认端口配置和主页配置（两处）
-</code></pre><ul>
-<li><p>改变默认的端口，将8080改为80，国内服务器需要备案 *</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"80"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改默认主页，需要添加<context>标签的内容到指定的位置 *</context></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">debug</span>=<span class="string">"0"</span> <span class="attr">docBase</span>=<span class="string">"/usr/local/huo/tomcat/webapps/winhuo"</span> <span class="attr">reloadable</span>=<span class="string">"true"</span> <span class="attr">privileged</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br><span class="line">		...</span><br><span class="line">		...</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="7-在腾讯云购买域名"><a href="#7-在腾讯云购买域名" class="headerlink" title="7.在腾讯云购买域名"></a>7.在腾讯云购买域名</h4><pre><code>* 在腾讯云购买域名 *
-完成实名认证
-将域名和服务器ip绑定
-</code></pre><h4 id="8-ZrLog的数据库连接"><a href="#8-ZrLog的数据库连接" class="headerlink" title="8.ZrLog的数据库连接"></a>8.ZrLog的数据库连接</h4><pre><code>在浏览器输入申请的域名，如[http://www.aurora8.xy](http://www.aurora8.xy)
-在数据库引导页输入** 数据库ip：127.0.0.1（不要输实际地址） **
-其他的按照之前设置的输入，端口是默认端口
-</code></pre><h4 id="9-完成"><a href="#9-完成" class="headerlink" title="9.完成"></a>9.完成</h4><ul>
-<li>答谢 *</li>
-<li>感谢在博客搭建过程中提出建议的熊大佬，龙哥等人 *</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2062,7 +2028,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2073,7 +2039,7 @@ vim server.xml 修改默认端口配置和主页配置（两处）
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
