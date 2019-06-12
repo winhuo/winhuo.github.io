@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="博客,shell,">
+  <meta name="keywords" content="go语言,">
 
 
 
@@ -77,22 +77,18 @@
 
 
 
-<meta name="description" content="两次博客搭建项目介绍1 第一次博客搭建​    第一次博客搭建，主要使用了tomcat+mysql+ZLog+java+服务器的方式，远端的服务器自己运维，搭建的详细过程在本博客中有单独的文章； ​    博客界面如下：  ​    在博客搭建之后，由于自己本身服务器的内存比较小，所以经常出现宕机的状况，所以参考网络，写了一点简单的脚本，负责检测tomcat的状态，如果他们存在宕机状态，则对他们进">
-<meta name="keywords" content="博客,shell">
+<meta name="description" content="Go语言数组和切片go语言的容器收到了python的很大影响 一、数组​    数组一般是各种编程语言的基本主力，但是go语言在数组的基础上创造了切片的概念，切片在go语言中随处可见。它们构建在数组之上并且提供更强大的能力和便捷。 12var identifier [len]typevar arr1 [5]int 数组中的元素可以通过下标获取，或者可以通过下标修改。但索引超过最大长度时，会报错。">
+<meta name="keywords" content="go语言">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博客项目介绍">
-<meta property="og:url" content="http://www.aurora8.xyz/2019/03/18/博客项目介绍/index.html">
+<meta property="og:title" content="go语言之第七篇">
+<meta property="og:url" content="http://www.aurora8.xyz/2019/06/12/go语言之第七篇/index.html">
 <meta property="og:site_name" content="曦剑">
-<meta property="og:description" content="两次博客搭建项目介绍1 第一次博客搭建​    第一次博客搭建，主要使用了tomcat+mysql+ZLog+java+服务器的方式，远端的服务器自己运维，搭建的详细过程在本博客中有单独的文章； ​    博客界面如下：  ​    在博客搭建之后，由于自己本身服务器的内存比较小，所以经常出现宕机的状况，所以参考网络，写了一点简单的脚本，负责检测tomcat的状态，如果他们存在宕机状态，则对他们进">
+<meta property="og:description" content="Go语言数组和切片go语言的容器收到了python的很大影响 一、数组​    数组一般是各种编程语言的基本主力，但是go语言在数组的基础上创造了切片的概念，切片在go语言中随处可见。它们构建在数组之上并且提供更强大的能力和便捷。 12var identifier [len]typevar arr1 [5]int 数组中的元素可以通过下标获取，或者可以通过下标修改。但索引超过最大长度时，会报错。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.aurora8.xyz/2019/03/18/博客项目介绍/2.png">
-<meta property="og:image" content="http://www.aurora8.xyz/2019/03/18/博客项目介绍/3.png">
-<meta property="og:image" content="http://www.aurora8.xyz/2019/03/18/博客项目介绍/1.png">
-<meta property="og:updated_time" content="2019-03-17T20:23:09.176Z">
+<meta property="og:updated_time" content="2019-06-12T12:15:56.771Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="博客项目介绍">
-<meta name="twitter:description" content="两次博客搭建项目介绍1 第一次博客搭建​    第一次博客搭建，主要使用了tomcat+mysql+ZLog+java+服务器的方式，远端的服务器自己运维，搭建的详细过程在本博客中有单独的文章； ​    博客界面如下：  ​    在博客搭建之后，由于自己本身服务器的内存比较小，所以经常出现宕机的状况，所以参考网络，写了一点简单的脚本，负责检测tomcat的状态，如果他们存在宕机状态，则对他们进">
-<meta name="twitter:image" content="http://www.aurora8.xyz/2019/03/18/博客项目介绍/2.png">
+<meta name="twitter:title" content="go语言之第七篇">
+<meta name="twitter:description" content="Go语言数组和切片go语言的容器收到了python的很大影响 一、数组​    数组一般是各种编程语言的基本主力，但是go语言在数组的基础上创造了切片的概念，切片在go语言中随处可见。它们构建在数组之上并且提供更强大的能力和便捷。 12var identifier [len]typevar arr1 [5]int 数组中的元素可以通过下标获取，或者可以通过下标修改。但索引超过最大长度时，会报错。">
 
 
 
@@ -122,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://www.aurora8.xyz/2019/03/18/博客项目介绍/">
+  <link rel="canonical" href="http://www.aurora8.xyz/2019/06/12/go语言之第七篇/">
 
 
 
 
 
-  <title>博客项目介绍 | 曦剑</title>
+  <title>go语言之第七篇 | 曦剑</title>
   
 
 
@@ -255,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/18/博客项目介绍/">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/06/12/go语言之第七篇/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="HuoYu">
@@ -272,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">博客项目介绍</h1>
+          <h1 class="post-title" itemprop="name headline">go语言之第七篇</h1>
         
 
         <div class="post-meta">
@@ -284,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T04:06:12+08:00">
-                2019-03-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-12T20:09:44+08:00">
+                2019-06-12
               </time>
             
 
@@ -307,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/项目介绍/" itemprop="url" rel="index">
-                    <span itemprop="name">项目介绍</span>
+                  <a href="/categories/go语言/" itemprop="url" rel="index">
+                    <span itemprop="name">go语言</span>
                   </a>
                 </span>
 
@@ -344,25 +340,33 @@
       
 
       
-        <h3 id="两次博客搭建项目介绍"><a href="#两次博客搭建项目介绍" class="headerlink" title="两次博客搭建项目介绍"></a>两次博客搭建项目介绍</h3><h4 id="1-第一次博客搭建"><a href="#1-第一次博客搭建" class="headerlink" title="1 第一次博客搭建"></a>1 第一次博客搭建</h4><p>​    第一次博客搭建，主要使用了tomcat+mysql+ZLog+java+服务器的方式，远端的服务器自己运维，搭建的详细过程在本博客中有单独的文章；</p>
-<p>​    博客界面如下：</p>
-<p><img src="/2019/03/18/博客项目介绍/2.png" alt="界面"></p>
-<p>​    在博客搭建之后，由于自己本身服务器的内存比较小，所以经常出现宕机的状况，所以参考网络，写了一点简单的脚本，负责检测tomcat的状态，如果他们存在宕机状态，则对他们进行重启。</p>
-<p>主要用到的脚本如下(shellj脚本参考了CSDN博客的一篇文章）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"><span class="meta">#</span> 获取tomcat进程ID  /usr/local/tomcat</span><br><span class="line">TomcatID=$(ps -ef |grep tomcat |grep -w 'tomcat'|grep -v 'grep'|awk '&#123;print $2&#125;')  </span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> tomcat启动程序(这里注意tomcat实际安装的路径)  </span><br><span class="line">StartTomcat=/usr/local/tomcat/bin/startup.sh</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 定义要监控的页面地址  </span><br><span class="line">WebUrl=http://localhost:8080</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 日志输出 </span><br><span class="line">TomcatMonitorLog=/usr/local/tomcat/logs/TomcatMonitor.log </span><br><span class="line"> </span><br><span class="line">Monitor() </span><br><span class="line">&#123;  </span><br><span class="line">  echo "[info]开始监控tomcat...[$(date +'%F %H:%M:%S')]"  </span><br><span class="line">  if [[ $TomcatID ]];then # 这里判断TOMCAT进程是否存在  </span><br><span class="line">    echo "[info]当前tomcat进程ID为:$TomcatID,继续检测页面..."  </span><br><span class="line">    # 检测是否启动成功(成功的话页面会返回状态"200")  </span><br><span class="line">    TomcatServiceCode=$(curl -I -m 10 -o /dev/null -s -w %&#123;http_code&#125; $WebUrl)  </span><br><span class="line">    if [ $TomcatServiceCode -eq 200 ];then  </span><br><span class="line">        echo "[info]页面返回码为$TomcatServiceCode,tomcat启动成功,测试页面正常......"  </span><br><span class="line">    else  </span><br><span class="line">        echo "[error]tomcat页面出错,请注意......状态码为$TomcatServiceCode,错误日志已输出到$GetPageInfo"  </span><br><span class="line">        echo "[error]页面访问出错,开始重启tomcat"  </span><br><span class="line">        kill -9 $TomcatID  # 杀掉原tomcat进程  </span><br><span class="line">        sleep 3  </span><br><span class="line">        rm -rf $TomcatCache # 清理tomcat缓存  </span><br><span class="line">        $StartTomcat  </span><br><span class="line">    fi  </span><br><span class="line">  else  </span><br><span class="line">    echo "[error]tomcat进程不存在!tomcat开始自动重启..."  </span><br><span class="line">    echo "[info]$StartTomcat,请稍候......"  </span><br><span class="line">    #rm -rf $TomcatCache  </span><br><span class="line">    $StartTomcat  </span><br><span class="line">  fi  </span><br><span class="line">  echo "------------------------------"  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="meta">Monitor&gt;</span>&gt;$TomcatMonitorLog</span><br></pre></td></tr></table></figure>
-<p>在这之后修改该脚本的权限为A+X</p>
-<p>之后使用centos提供的crontab设置任务的执行周期。我设置为10分钟检测一次。</p>
-<p>之后过了两天我发现网页又不能正常访问了，我到远端服务器发现mysql被关闭了（人穷服务器小）</p>
-<p>之后又添加了mysql的检测和重启脚本：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">pgrep -x mysqld &amp;amp;&amp;gt; /dev/null</span><br><span class="line">if [ $? -ne 0 ]</span><br><span class="line">then</span><br><span class="line">echo “At time: `date` :MySQL is stop .”&amp;gt;&amp;gt; /日志路径</span><br><span class="line">/etc/init.d/mysqld start</span><br><span class="line">else</span><br><span class="line">echo “MySQL server is running .”</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-<p>之后根据之前的操作设置了定时任务。</p>
-<p><strong>由于自己偷懒并没有去写脚本对博客内容进行一些备份，所以后来悲剧了</strong></p>
-<h4 id="2-博客受到攻击"><a href="#2-博客受到攻击" class="headerlink" title="2 博客受到攻击"></a>2 博客受到攻击</h4><p>博客可能因为80端口打开的原因，收到了勒索病毒的攻击</p>
-<p><img src="/2019/03/18/博客项目介绍/3.png" alt="勒索信息"></p>
-<p><strong>一定要做博客的备份，除非你信任自己能很好的维护自己的服务器</strong></p>
-<h4 id="3-新博客的搭建"><a href="#3-新博客的搭建" class="headerlink" title="3 新博客的搭建"></a>3 新博客的搭建</h4><p>​    后来根据一些学长的建议，重新搭建了基于hexo+github的博客，将博客托管到了github上，现在博客运行基本稳定。</p>
-<p><img src="/2019/03/18/博客项目介绍/1.png" alt="博客界面"></p>
-<p>​    至于新博客的搭建详细过程，已经再另一篇博客里面写的很详细了，由于这个博客框架比较简单，并且不需要个人去维护，所以博客搭建完就开始往里面加东西了。</p>
+        <h2 id="Go语言数组和切片"><a href="#Go语言数组和切片" class="headerlink" title="Go语言数组和切片"></a>Go语言数组和切片</h2><p><em>go语言的容器收到了python的很大影响</em></p>
+<h5 id="一、数组"><a href="#一、数组" class="headerlink" title="一、数组"></a>一、数组</h5><p>​    数组一般是各种编程语言的基本主力，但是go语言在数组的基础上创造了切片的概念，切片在go语言中随处可见。它们构建在数组之上并且提供更强大的能力和便捷。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var identifier [len]type</span><br><span class="line">var arr1 [5]int</span><br></pre></td></tr></table></figure>
+<p>数组中的元素可以通过下标获取，或者可以通过下标修改。但索引超过最大长度时，会报错。</p>
+<p>​    Go 语言中的数组是一种 <strong>值类型</strong>（不像 C/C++ 中是指向首元素的指针），所以可以通过 <code>new()</code> 来创建： <code>var arr1 = new([5]int)</code>。数组的另一种声明方式是<code>var arr2 [5]int</code>，这两种是有区别的。arr1的类型是*[5]int,</p>
+<p>但是arr2的类型是[5]int。</p>
+<p>​    所以赋值时，<code>arr2 := *arr1</code>。</p>
+<p>​    所以在函数中数组作为参数传入时，如 <code>func1(arr2)</code>，会产生一次数组拷贝，func1 方法不会修改原始的数组 arr2。</p>
+<p>如果你想修改原数组，那么 arr2 必须通过&amp;操作符以引用方式传过来，例如 func1(&amp;arr2），下面是一个例子</p>
+<p>​    *数组常量的初始化数组：</p>
+<p>​    <code>var arrLazy = [...]int{5, 6, 7, 8, 22}</code></p>
+<p>​    <code>var arrAge = [5]int{18, 20, 15, 22, 16}</code></p>
+<p>​    <code>var arrKeyValue = [5]string{3: &quot;Chris&quot;, 4: &quot;Ron&quot;}</code></p>
+<p>​    *将数组传递给函数可以有两种方法，第一种是传递数组的指针，第二种是使用数组的切片。</p>
+<h3 id="二、切片"><a href="#二、切片" class="headerlink" title="二、切片"></a>二、切片</h3><p>​    切片（slice）是对数组一个连续片段的引用（该数组我们称之为相关数组，通常是匿名的），所以切片是一个引用类型。和数组不同的是，切片的长度可以在运行时修改，最小为 0 最大为相关数组的长度：切片是一个 <strong>长度可变的数组</strong>。</p>
+<p>切片提供了计算容量的函数 <code>cap()</code> 可以测量切片最长可以达到多少：它等于切片的长度 + 数组除切片之外的长度。如果 s 是一个切片，<code>cap(s)</code> 就是从 <code>s[0]</code> 到数组末尾的数组长度。切片的长度永远不会超过它的容量，所以对于 切片 s 来说该不等式永远成立：<code>0 &lt;= len(s) &lt;= cap(s)</code>。</p>
+<p>声明切片的格式是： <code>var identifier []type</code>（不需要说明长度）</p>
+<p>切片的初始化格式是：<code>var slice1 []type = arr1[start:end]</code></p>
+<p>切片在内存中的组织方式实际上是一个有 3 个域的结构体：指向相关数组的指针，切片长度以及切片容量。</p>
+<p>在数组还没有声明之前，如果我们想要使用切片，我们可以使用make（）函数创建一个切片。</p>
+<p>所以定义 <code>s2 := make([]int, 10)</code>，那么 <code>cap(s2) == len(s2) == 10</code>。</p>
+<p>make 接受 2 个参数：元素的类型以及切片的元素个数。</p>
+<ul>
+<li>new(T) 为每个新的类型T分配一片内存，初始化为 0 并且返回类型为*T的内存地址：这种方法 <strong>返回一个指向类型为 T，值为 0 的地址的指针</strong>，它适用于值类型如数组和结构体；它相当于 <code>&amp;T{}</code>。</li>
+<li>make(T) <strong>返回一个类型为 T 的初始值</strong>，它只适用于3种内建的引用类型：切片、map 和 channel。</li>
+</ul>
+<p>换言之，new 函数分配内存，make 函数初始化；</p>
 
       
     </div>
@@ -380,9 +384,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/博客/" rel="tag"><i class="fa fa-tag"></i> 博客</a>
-          
-            <a href="/tags/shell/" rel="tag"><i class="fa fa-tag"></i> shell</a>
+            <a href="/tags/go语言/" rel="tag"><i class="fa fa-tag"></i> go语言</a>
           
         </div>
       
@@ -395,8 +397,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/13/leetcode/" rel="next" title="leetcode">
-                <i class="fa fa-chevron-left"></i> leetcode
+              <a href="/2019/06/12/go语言之第六篇/" rel="next" title="go语言之第六篇">
+                <i class="fa fa-chevron-left"></i> go语言之第六篇
               </a>
             
           </div>
@@ -404,10 +406,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/18/文件上传系统/" rel="prev" title="文件上传系统">
-                文件上传系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -551,7 +549,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#两次博客搭建项目介绍"><span class="nav-number">1.</span> <span class="nav-text">两次博客搭建项目介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-第一次博客搭建"><span class="nav-number">1.1.</span> <span class="nav-text">1 第一次博客搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-博客受到攻击"><span class="nav-number">1.2.</span> <span class="nav-text">2 博客受到攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-新博客的搭建"><span class="nav-number">1.3.</span> <span class="nav-text">3 新博客的搭建</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go语言数组和切片"><span class="nav-number">1.</span> <span class="nav-text">Go语言数组和切片</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、数组"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">一、数组</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#二、切片"><span class="nav-number">1.1.</span> <span class="nav-text">二、切片</span></a></li></div>
             
 
           </div>
