@@ -397,6 +397,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/06/12/go语言之前言/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HuoYu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="曦剑">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/12/go语言之前言/" itemprop="url">go语言之前言</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-12T20:03:49+08:00">
+                2019-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/go语言学习/" itemprop="url" rel="index">
+                    <span itemprop="name">go语言学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一，go语言的历史和一些特性"><a href="#一，go语言的历史和一些特性" class="headerlink" title="一，go语言的历史和一些特性"></a>一，go语言的历史和一些特性</h3><h4 id="1，go语言的历史"><a href="#1，go语言的历史" class="headerlink" title="1，go语言的历史"></a>1，go语言的历史</h4><p>​    随着软件行业的发展，对编程语言有了以下几个要求：</p>
+<p>​        1，能够快速的开发出软件</p>
+<p>​        2，开发出的软件能在多核计算机上良好运行</p>
+<p>​        3，开发出的软件能在网络环境下运行</p>
+<p>​        4，使人们享受开发的过程</p>
+<p>​    go语言在这样的条件下诞生了，他继承了c，java，c#的一些优点，提倡用接口的方法处理面向对象，通过goroutine和channel来支持并发和并行编程。</p>
+<p>​    go语言起源于2007年，在2009年对外发布。2009年将go语言对外开源。        </p>
+<ul>
+<li>2007 年 9 月 21 日：雏形设计</li>
+<li>2009 年 11 月 10日：首次公开发布</li>
+<li>2010 年 1 月 8 日：当选 2009 年年度语言</li>
+<li>2010 年 5 月：谷歌投入使用</li>
+<li>2011 年 5 月 5 日：Google App Engine 支持 Go 语言</li>
+</ul>
+<h4 id="2，go语言的特性"><a href="#2，go语言的特性" class="headerlink" title="2，go语言的特性"></a>2，go语言的特性</h4><p>​    go语言从本质上实现了并发编程</p>
+<p>​    go没有类和对象的概念，通过接口的概念来实现多态</p>
+<p>​    函数是go语言中最基本的构建，使用灵活</p>
+<p>​    go语言使用静态类型，类型安全</p>
+<p>​    隐式的类型转换不被允许</p>
+<p>​    go语言支持交叉编译，可以在运行linux的电脑上开发运行在windows上的软件，完全支持UTF-8</p>
+<h4 id="3，go语言的用途"><a href="#3，go语言的用途" class="headerlink" title="3，go语言的用途"></a>3，go语言的用途</h4><p>​    应用于web服务器吗，存储集群，或者类似用途的巨型中央服务器，擅长高性能分布式系统。提供海量并行，擅长游戏服务器端的开发</p>
+<p>​    擅长所谓的复杂事务处理（CEP）</p>
+<p>​    垃圾回收和内存分配，适合开发实时性要求很高的软件</p>
+<h4 id="4，特性的缺失"><a href="#4，特性的缺失" class="headerlink" title="4，特性的缺失"></a>4，特性的缺失</h4><ul>
+<li>为了简化设计，不支持函数重载和操作符重载</li>
+<li>为了避免在 C/C++ 开发中的一些 Bug 和混乱，不支持隐式转换</li>
+<li>Go 语言通过另一种途径实现面向对象设计（第 10-11 章）来放弃类和类型的继承</li>
+<li>尽管在接口的使用方面（第 11 章）可以实现类似变体类型的功能，但本身不支持变体类型</li>
+<li>不支持动态加载代码</li>
+<li>不支持动态链接库</li>
+<li>不支持泛型</li>
+<li>通过 <code>recover</code> 和 <code>panic</code> 来替代异常机制（第 13.2-3 节）</li>
+<li>不支持静态变量</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/05/19/集群和高可用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1762,220 +1937,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.aurora8.xyz/2019/03/06/将个人博客hexo托管到GitHub/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="HuoYu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/header.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="曦剑">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/06/将个人博客hexo托管到GitHub/" itemprop="url">将个人博客hexo托管到GitHub</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-06T20:09:16+08:00">
-                2019-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客搭建/" itemprop="url" rel="index">
-                    <span itemprop="name">博客搭建</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="将个人博客（hexo前端-托管到GitHub"><a href="#将个人博客（hexo前端-托管到GitHub" class="headerlink" title="将个人博客（hexo前端)托管到GitHub"></a>将个人博客（hexo前端)托管到GitHub</h1><p>​       <em>用了大概有一天的时间，将这个新博客搭建完了，总的来说，将博客托管到Ggithub上面相对于之前的旧博客搭建更简单一点</em></p>
-<h2 id="一，搭建本博客需要的一些前提知识和内容"><a href="#一，搭建本博客需要的一些前提知识和内容" class="headerlink" title="一，搭建本博客需要的一些前提知识和内容"></a>一，搭建本博客需要的一些前提知识和内容</h2><ol>
-<li>需要你自己拥有一个github账号，并且了解一点github的基本知识。</li>
-<li>需要对HEXO的博客前端有一定的了解，可以参考官网。</li>
-<li>需要熟悉linux端的一些基本命令。</li>
-<li>需要拥有自己的一个域名。</li>
-</ol>
-<h2 id="二，本人linux环境的一些说明"><a href="#二，本人linux环境的一些说明" class="headerlink" title="二，本人linux环境的一些说明"></a>二，本人linux环境的一些说明</h2><ul>
-<li>采用虚拟机的方式，在虚拟机中安装了centos系统。</li>
-<li>启动虚拟机，并连接网络，使用ifconfig命令查看系统的IP地址。(局域网的ip)</li>
-<li>使用xshell软件登陆虚拟机里的centos系统的root用户。</li>
-<li>个人比较喜欢linux这种纯手打操作的操作系统，用起来比较方便。</li>
-</ul>
-<h2 id="三，安装的一些基本步骤"><a href="#三，安装的一些基本步骤" class="headerlink" title="三，安装的一些基本步骤"></a>三，安装的一些基本步骤</h2><ul>
-<li><code>yum install git</code></li>
-<li><code>yum install nodejs</code>（hexo基于node.js)</li>
-<li><code>yum install npm</code>(npm是js的包管理工具)</li>
-<li><code>npm install -g hexo-cli</code>（安装hexo的包）</li>
-<li><code>hexo init myblog</code>    <strong>其中myblog是一个名称，也是你博客所在的文件夹</strong></li>
-<li><code>cd myblog</code></li>
-<li><code>npm install</code></li>
-</ul>
-<p>此时博客已经安装在了你的服务器上，接下来在github上创建该博客的代码仓库</p>
-<ul>
-<li><p>在github上建立名为 yourgithub.github.io的代码仓库   <strong>yourgithub是你的GitHub名称</strong></p>
-</li>
-<li><p>回到bash中</p>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot; //yourname=你的github名</span><br><span class="line">git config --global user.email &quot;youremail&quot;//youremail=你的注册email</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>ssh-keygen -t rsa -C &quot;youremail&quot;</code>  </p>
-</li>
-<li><p>此时会生成一个.ssh文件夹，根据提示cd到该文件夹中</p>
-</li>
-<li><p><code>cat id_rsa.pub</code>     将里面的文字全部复制到剪切板，打开github</p>
-</li>
-<li><p>进入github-&gt;setting-&gt;ssh keys-&gt; new ssh key ,将剪切板的文件粘贴进去，保存</p>
-</li>
-<li><p>进入bash</p>
-</li>
-<li><p><code>vim _config.yml</code></p>
-</li>
-<li><p>在vim中 查找（/+查找的字段）deploy字段，将里面的YourgithubName改为你的github名。</p>
-</li>
-<li><p><code>hexo clean</code></p>
-</li>
-<li><p><code>hexo g</code></p>
-</li>
-<li><p><code>hexx d</code></p>
-</li>
-<li><p><strong>以上三个命令在每次修改文件或者写作后都应该使用，作用是更新网页</strong></p>
-</li>
-<li><p><strong>执行第三条命令时需要你输入你的github名称以及你的密码</strong></p>
-</li>
-</ul>
-<p>此时已经能在任一浏览器中浏览网页，但还需要绑定域名</p>
-<ul>
-<li>绑定域名在各平台是傻瓜操作，主要有以下需要注意的：<ul>
-<li>记录类型为CNAME</li>
-<li>记录值为你的代码仓库名称，即yourgithub.github.io</li>
-</ul>
-</li>
-<li>进入github在该仓库下点击setting，设置custom domain为你的域名。</li>
-<li>进入bush，进入source目录</li>
-<li><code>vim CNAME</code>,在vim中写上你的域名。</li>
-<li>执行之前提过的三条命令。</li>
-</ul>
-<hr>
-<h2 id="四、关于写作和其他配置"><a href="#四、关于写作和其他配置" class="headerlink" title="四、关于写作和其他配置"></a>四、关于写作和其他配置</h2><hr>
-<p><strong><em>到现在，整个博客已经安装完毕了，错略的总结了一下基本步骤，关于如何进行博客写作还有对博客主题修改以及其他的一些更高级的配置，网络上有很多好的博文，就不再赘述了，主要还是因为现在要找工作时间有限，以后如果有空余时间了，还是会过来再写一些的</em></strong></p>
-<p><em>推荐大家使用next主题的第四个样式，好评！！！！</em></p>
-<p>如果你使用了next主题，想要更好的装饰博客，推荐看<a href="https://blog.csdn.net/qq_33699981/article/details/72716951&quot;next主题个性化&quot;" target="_blank" rel="noopener">博文</a></p>
-<h2 id="五、结束"><a href="#五、结束" class="headerlink" title="五、结束"></a>五、结束</h2><p>感谢github的这个功能，如果你想要基于服务器自己搭建一个博客，请看我的另一篇博文，但是那种方式成本比较高，你还需要自己维护自己的服务器。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2028,7 +1989,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2039,7 +2000,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2050,7 +2011,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
